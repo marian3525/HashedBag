@@ -2,9 +2,7 @@
 
 class HashTable {
 public:
-    HashTable(unsigned int cap);
-
-    ~HashTable();
+    explicit HashTable(unsigned int cap);
 
     void add(const int &elem);
 
@@ -14,9 +12,9 @@ public:
 
     bool search(const int &elem) const;
 
-    unsigned int size;
+    unsigned int size;      //number of elems in the hashtable
     int *elems = nullptr;
-    unsigned int totalLen;
+    unsigned int totalLen; //length of the table (hashing space length + collision space length)
 
 private:
     unsigned int hash(const int &elemToHash) const;

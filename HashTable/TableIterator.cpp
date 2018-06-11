@@ -5,31 +5,35 @@
 #include "TableIterator.h"
 
 TableIterator::TableIterator(HashTable& hashTable) {
-    index = 0;
     this->hashTable = &hashTable;
-    while(index < this->hashTable->totalLen) {
+
+    index = this->hashTable->totalLen-1;
+
+    //find the first non null element and set the positin to it
+    while(index >= 0) {
         if(this->hashTable->elems[index] != -1) {
             break;
         }
-        index++;
+        index--;
     }
-    if(index == this->hashTable->totalLen) {
+    //if reached the end before finding something non null
+    if(index == -1) {
         current = -1;
     }
-    else{
+    else{  //it exited with break, the first non null elem is at position index
         current = this->hashTable->elems[index];
     }
 }
 
 void TableIterator::next() {
-    index++;
-    while(index < hashTable->totalLen) {
+    index--;
+    while(index >= 0) {     //
         if(hashTable->elems[index] != -1) {
             break;
         }
-        index++;
+        index--;
     }
-    if(index == hashTable->totalLen) {
+    if(index == -1) {
         current = -1;
     }
     else{

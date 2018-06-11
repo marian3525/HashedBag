@@ -1,9 +1,14 @@
 #include <iostream>
+#include <hash_fun.h>
 #include "HashTable.h"
 
 #define null -1
 
 HashTable::HashTable(unsigned int cap) {
+    /**
+     * Create a hash table of inital size cap
+     * complexity: O(cap)
+     */
     totalLen = cap;
     hashingLen = static_cast<unsigned int>(0.75 *
                                            cap);         //75% of the space used for hashing, 25% reserved for solving collisions
@@ -24,10 +29,6 @@ HashTable::HashTable(unsigned int cap) {
     //debugPrint();
 }
 
-HashTable::~HashTable() {
-
-}
-
 void HashTable::debugPrint() {
     for(int i=0; i<totalLen; i++) {
         std::cout<<i<<"  ";
@@ -46,7 +47,9 @@ void HashTable::debugPrint() {
 }
 void HashTable::add(const int &elem) {
     /**
+     * Add elem to the table
      * IN: elem: element to be added in the bag
+     * complexity: best: O(1), worst: O(n^2) on resize, average: O(
      */
     if(size>=hashingLen-1) {
         resize();
@@ -83,6 +86,7 @@ void HashTable::remove(const int &elem) {
      * Removes one instance of elem from the table
      * elem: int to be removed
      * Does nothing if elem is not in the hashtable
+     * complexity: O(1)
      */
      int key = hash(elem);
      if(elems[key] == null) {
@@ -139,6 +143,7 @@ void HashTable::remove(const int &elem) {
 int* HashTable::getAll(int &noOfElems) const {
     /**
      * OUT: a pointer to an array of noOfElems elements containing all the elements in the bag
+     * complexity: O(n)
      */
     int* all = new int[size];
     int k=0;
@@ -153,13 +158,14 @@ int* HashTable::getAll(int &noOfElems) const {
 }
 
 unsigned int HashTable::hash(const int &elemToHash) const {
-    return elemToHash%hashingLen;
+    return (elemToHash)%hashingLen;
 }
 
 bool HashTable::search(const int &elem) const {
     /**
      * IN: elem: the element to be searched
      * OUT: true if elem was found in the bag, false otherwise
+     * complexity: O(1)
      */
     int key = hash(elem);
     if(elems[key]==null) {
@@ -183,6 +189,7 @@ bool HashTable::search(const int &elem) const {
 void HashTable::updateNextFree() {
     /**
      * Keep track of the next free position
+     * complexity: O(n)
      */
     unsigned int pos = totalLen - 1;
 
@@ -196,6 +203,7 @@ void HashTable::resize() {
     /**
      * Resize the table to make room for more collisions
      * Allocate memory, rehash and add all the elements into the new space (doubled)
+     * complexity: O(n^2)
      */
     int* newElems = new int[2*totalLen];
     int* newNext = new int[2*totalLen];
@@ -214,6 +222,7 @@ void HashTable::resize() {
     //add all elements into the new memory space
     int n;
     int* all = getAll(n);
+    //O(n)
     for(int i=0; i<n; i++) {
         int elem = all[i];
 

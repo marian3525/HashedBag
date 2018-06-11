@@ -4,10 +4,6 @@ Bag::Bag() {
     hashTable = HashTable{23};
 }
 
-Bag::~Bag() {
-
-}
-
 void Bag::add(const int &elem) {
     /**
      * IN: elem: element to add to the bag
@@ -22,7 +18,7 @@ void Bag::remove(const int &elem) {
      hashTable.remove(elem);
 }
 
-int Bag::exists(const int &elem) const {
+bool Bag::exists(const int &elem) const {
     /**
      * IN: elem: int
      * OUT: true if elem is in the bag, false otherwise
@@ -39,7 +35,7 @@ bool Bag::isEmpty() const {
 
 void Bag::clear() {
     /**
-     * Removes all elements from the bag
+     * Removes all elements from the bag3
      */
     int n;
     int* all = hashTable.getAll(n);
@@ -47,7 +43,6 @@ void Bag::clear() {
         hashTable.remove(all[i]);
     }
 }
-
 int Bag::size() const {
     return hashTable.size;
 }
